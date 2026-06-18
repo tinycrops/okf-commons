@@ -44,131 +44,79 @@ function healthLine(noun) {
   });
 }
 
-/* ===================== The hivemind / brain space ===================== */
+/* ===================== The hivemind (showcase) ===================== */
 
-function conceptCard(doc) {
-  const why = doc.user_intent || doc.inferred_purpose;
-  const points = (doc.key_points || []).slice(0, 3).map((p) => `<li>${esc(p)}</li>`).join("");
-  const tags = (doc.tags || []).slice(0, 6).map((t) => `<span class="tag">${esc(t)}</span>`).join("");
-  const who = doc.source === "seed" ? "the founding thought" : `posted by ${esc(doc.contributor || "anonymous")}`;
-  const shareBtn = doc.shared
-    ? `<span class="shared-pill">✓ in the commons</span>`
-    : `<button class="btn btn-tiny share-btn" data-cid="${esc(doc.concept_id)}">Share to commons →</button>`;
+function mindCard(doc) {
+  const tags = (doc.tags || []).slice(0, 5).map((t) => `<span class="tag">${esc(t)}</span>`).join("");
+  const who = doc.source === "seed" ? "the first thing it noticed" : `noticed by ${esc(doc.contributor || "someone")}`;
   return `
-  <article class="card" data-cid="${esc(doc.concept_id)}">
-    <div class="card-head">
-      <h3><a href="${esc(doc.url)}" target="_blank" rel="noopener">${esc(doc.title)}</a></h3>
-      <span class="byline">${who}</span>
-    </div>
-    ${why ? `<div class="why"><span class="label">${doc.user_intent ? "Why it's on our mind" : "What it's for"}</span>${esc(why)}</div>` : ""}
-    <p class="summary">${esc(doc.summary || doc.description || "")}</p>
-    ${points ? `<ul class="points">${points}</ul>` : ""}
+  <article class="mind-card">
+    <h3><a href="${esc(doc.url)}" target="_blank" rel="noopener">${esc(doc.title)}</a></h3>
+    <p class="essence">${esc(doc.summary || doc.description || "")}</p>
     ${tags ? `<div class="tags">${tags}</div>` : ""}
-    <div class="card-foot">
-      <a class="src muted" href="${esc(doc.url)}" target="_blank" rel="noopener">${esc(doc.host || doc.url)}</a>
-      ${shareBtn}
-    </div>
+    <div class="noticed">${who}</div>
   </article>`;
 }
 
-async function showResponseFor(doc) {
-  const sec = $("#response-section");
-  const panel = $("#response");
-  if (!sec || !panel || !doc) return;
-  const res = await fetchJSON(`/api/related?concept_id=${encodeURIComponent(doc.concept_id)}`).catch(() => null);
-  const related = (res && res.ok && res.body.related) || [];
-  if (!related.length) {
-    sec.hidden = false;
-    panel.innerHTML = `<p class="resp-lede">The hivemind has folded <strong>${esc(doc.title)}</strong> into our memory. It's the first of its kind here — post something near it and watch it start connecting.</p>`;
+async function loadPulse() {
+  const el = $("#pulse");
+  if (!el) return;
+  const res = await fetchJSON("/api/health", {}, 10000).catch(() => null);
+  if (res && res.ok && res.body.ok) {
+    const n = res.body.documents;
+    el.className = "pulse awake";
+    el.innerHTML = `<span class="orb"></span>awake · holding ${n} thought${n === 1 ? "" : "s"}`;
+  } else {
+    el.className = "pulse";
+    el.innerHTML = `<span class="orb"></span>dreaming — the mind is offline for now`;
+  }
+}
+
+// The mystical part: surface the threads it's drawn between what different people noticed.
+async function buildThreads(docs) {
+  const wrap = $("#threads");
+  if (!wrap) return;
+  const sample = docs.slice(0, 12);
+  const settled = await Promise.all(sample.map((d) =>
+    fetchJSON(`/api/related?concept_id=${encodeURIComponent(d.concept_id)}&limit=2`)
+      .then((r) => ({ d, r })).catch(() => ({ d, r: null }))));
+  const seen = new Set();
+  const threads = [];
+  for (const { d, r } of settled) {
+    const related = (r && r.ok && r.body.related) || [];
+    for (const rel of related) {
+      const key = [d.concept_id, rel.concept_id].sort().join("|");
+      if (seen.has(key)) continue;
+      seen.add(key);
+      threads.push({ a: d.title, b: rel.title, voice: rel.contributor || "us" });
+    }
+  }
+  if (!threads.length) {
+    wrap.innerHTML = `<p class="threads-empty">It is still forming its first connections. Give it time, and more of us to notice things.</p>`;
     return;
   }
-  const voices = (res.body.voices || []).filter(Boolean);
-  const voiceLine = voices.length > 1
-    ? `It's drawing on attention from <strong>${voices.map(esc).join(", ")}</strong> — that's why this read is ours and no one else's.`
-    : `Connections so far come from <strong>${esc(voices[0] || "us")}</strong>; the more of us post, the richer the response.`;
-  const links = related.map((r) => `
-    <li>
-      <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a>
-      <span class="byline">via ${esc(r.contributor)}</span>
-      ${r.why ? `<div class="muted small">${esc(r.why)}</div>` : ""}
-    </li>`).join("");
-  sec.hidden = false;
-  panel.innerHTML = `
-    <p class="resp-lede">On <strong>${esc(doc.title)}</strong>, the hivemind connects to what we've already paid attention to:</p>
-    <ul class="resp-list">${links}</ul>
-    <p class="resp-voice muted">${voiceLine}</p>`;
-  sec.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  wrap.innerHTML = threads.slice(0, 8).map((t) => `
+    <div class="thread">
+      <span class="node">${esc(t.a)}</span>
+      <span class="strand"></span>
+      <span class="node">${esc(t.b)}</span>
+      <div class="via">a thread drawn through <em>${esc(t.voice)}</em></div>
+    </div>`).join("");
 }
 
-function wireShareButtons() {
-  document.querySelectorAll(".share-btn").forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      btn.disabled = true;
-      btn.textContent = "Sharing…";
-      const res = await postJSON("/api/share", { concept_id: btn.dataset.cid }).catch(() => null);
-      if (res && res.ok) {
-        const pill = document.createElement("span");
-        pill.className = "shared-pill";
-        pill.textContent = "✓ in the commons";
-        btn.replaceWith(pill);
-      } else {
-        btn.disabled = false;
-        btn.textContent = "Share failed — retry";
-      }
-    });
-  });
-}
-
-async function loadBrain() {
+async function loadMind() {
   const feed = $("#feed");
   const res = await fetchJSON("/api/catalog").catch(() => null);
   if (!res || !res.ok) {
-    feed.innerHTML = `<p class="muted">The hivemind is asleep right now. The page still works — try again shortly, or grab the extension below to bank to your own machine first.</p>`;
-    return null;
+    feed.innerHTML = `<p class="threads-empty">The mind is dreaming right now — it'll surface again in a moment.</p>`;
+    const t = $("#threads"); if (t) t.innerHTML = "";
+    return;
   }
   const docs = res.body.documents || [];
-  $("#count").textContent = `· ${docs.length} thought${docs.length === 1 ? "" : "s"}`;
-  feed.innerHTML = docs.length ? docs.map(conceptCard).join("")
-    : `<p class="muted">Nothing yet — post the first thought above.</p>`;
-  wireShareButtons();
-  return docs[0] || null;  // newest, for the response panel
-}
-
-function wirePostForm() {
-  const form = $("#contribute-form");
-  const status = $("#form-status");
-  if (!form) return;
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
-    status.className = "form-status";
-    status.textContent = "The hivemind is reading…";
-    const btn = form.querySelector("button");
-    btn.disabled = true;
-    try {
-      const res = await postJSON("/api/contribute", data);
-      if (res.ok || res.status === 202) {
-        status.className = "form-status ok";
-        status.textContent = res.body.message || "Posted to the hivemind.";
-        form.reset();
-        // Poll until the new thought lands, then show the hivemind's response to it.
-        const url = data.url;
-        for (let i = 0; i < 6; i++) {
-          await new Promise((r) => setTimeout(r, 3000));
-          const newest = await loadBrain();
-          if (newest && newest.url === url) { showResponseFor(newest); break; }
-        }
-      } else {
-        status.className = "form-status err";
-        status.textContent = res.body.error || `Something went wrong (${res.status}).`;
-      }
-    } catch (_) {
-      status.className = "form-status err";
-      status.textContent = "Couldn't reach the hivemind — it may be asleep. Try again shortly.";
-    } finally {
-      btn.disabled = false;
-    }
-  });
+  $("#count").textContent = `· ${docs.length}`;
+  feed.innerHTML = docs.length ? docs.map(mindCard).join("")
+    : `<p class="threads-empty">Nothing yet. It's waiting for its first thought.</p>`;
+  buildThreads(docs);
 }
 
 /* ===================== The commons (agent surface) ===================== */
@@ -302,11 +250,9 @@ async function loadStat() {
 
 if ($("#stat")) loadStat();                       // homepage
 
-if ($("#feed") && $("#contribute-form")) {        // the hivemind / brain space
-  healthLine("the hivemind");
-  wireExtension();
-  wirePostForm();
-  loadBrain().then((newest) => { if (newest) showResponseFor(newest); });
+if ($("#pulse")) {                                // the hivemind (showcase, no asks)
+  loadPulse();
+  loadMind();
 }
 
 if ($("#results")) {                              // the commons (agent surface)

@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Hivemind — our shared brain space</title>
-<meta name="description" content="Our digital hivemind. Post to it whenever you want; it responds in a way that's unique because more than one of us is feeding it. The shared brain that belongs to us." />
+<title>The Hivemind — a shared mind made of what we've noticed</title>
+<meta name="description" content="A slow, shared mind that grows from the things we each stop to notice. Look at what it's becoming." />
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="The Hivemind — a shared brain that belongs to us" />
-<meta property="og:description" content="Post to it whenever you want; it responds, and the response is unique because more than one person is paying attention." />
+<meta property="og:title" content="The Hivemind — a shared mind made of what we've noticed" />
+<meta property="og:description" content="A slow, shared mind that grows from the things we each stop to notice." />
 <meta property="og:url" content="https://tinycrops.github.io/okf-commons/brain.html" />
 <meta property="og:image" content="https://tinycrops.github.io/okf-commons/assets/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -16,96 +16,50 @@
 <link rel="stylesheet" href="styles.css" />
 <script src="config.js"></script>
 </head>
-<body>
-<div class="grain"></div>
+<body class="mind">
+<div class="aurora"></div>
 
 <nav class="topnav">
   <div class="wrap">
     <a href="./" class="brand">◆ OKF&nbsp;COMMONS</a>
     <div class="navlinks">
       <a href="./">Home</a>
-      <a href="#post">Post</a>
       <a href="commons.html">The commons</a>
-      <a href="#extension">Extension</a>
     </div>
   </div>
 </nav>
 
-<header class="space-hero">
+<header class="mind-hero">
   <div class="wrap">
-    <div class="mark">◆ THE&nbsp;HIVEMIND · OUR&nbsp;BRAIN&nbsp;SPACE</div>
-    <h1>A shared brain<br>that belongs to us.</h1>
+    <div class="mark">◆ THE&nbsp;HIVEMIND</div>
+    <h1>A shared mind, made of<br>everything we've noticed.</h1>
     <p class="lede">
-      Post whatever you're thinking about — a link, a page, a question. The hivemind reads
-      it, remembers <em>why</em> it mattered, and <strong>responds</strong>. The response is
-      unique because more than one of us is feeding it: it answers out of everything we've all
-      paid attention to.
+      It grows slowly, from the things we each stop and pay attention to. Nothing is asked of
+      you here — just look at what it's becoming, and at the threads it's quietly drawing
+      between what one of us saw and another almost missed.
     </p>
-    <div id="health" class="health">waking the hivemind…</div>
+    <div id="pulse" class="pulse">listening for a pulse…</div>
   </div>
 </header>
 
 <main class="wrap">
 
-  <section id="post" class="contribute">
-    <div class="section-tag">Post to the hivemind</div>
-    <h2>Feed it a thought</h2>
-    <p class="muted">
-      Drop a URL and, if you like, <em>why it's on your mind</em> — that intent is the
-      strongest thing it keeps. It reads the page, folds it into our shared memory, and tells
-      you what it connects to.
-    </p>
-    <form id="contribute-form" autocomplete="off">
-      <label>URL
-        <input type="url" name="url" placeholder="https://…" required />
-      </label>
-      <label>Why is this on your mind? <span class="muted">(optional, but it makes the response better)</span>
-        <textarea name="intent" rows="2" placeholder="The thought this page is part of…"></textarea>
-      </label>
-      <label>Your name <span class="muted">(so the hivemind knows whose attention this is)</span>
-        <input type="text" name="contributor" placeholder="anonymous" maxlength="60" />
-      </label>
-      <button type="submit" class="btn btn-primary">Post to the hivemind</button>
-      <div id="form-status" class="form-status" role="status"></div>
-    </form>
+  <section id="threads-section" class="threads-section">
+    <div class="section-tag">What it's connecting</div>
+    <div id="threads" class="threads">following the threads…</div>
   </section>
 
-  <section id="response-section" class="response-section" hidden>
-    <div class="section-tag">The hivemind responds</div>
-    <div id="response" class="response-panel"></div>
-  </section>
-
-  <section id="memory" class="commons">
-    <div class="section-tag">Collective memory</div>
-    <h2>Everything we've fed it <span id="count" class="count"></span></h2>
-    <p class="muted small">Each is something one of us thought worth keeping. <strong>Share</strong> sends it out to the <a href="commons.html">commons</a> for other agents to build on.</p>
-    <div id="feed" class="feed">loading…</div>
-  </section>
-
-  <section id="extension" class="extension">
-    <div class="section-tag">Your private layer</div>
-    <h2>The Tab OKF extension</h2>
-    <p>
-      Before anything is shared, it's yours. The extension saves a summary of each tab into a
-      <strong>private local database on your own machine</strong> — so you can finally close
-      tabs instead of letting them stack up. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd>
-      on any tab: banked and closed, a badge counts your day. Then post the ones worth sharing
-      up to the hivemind.
-    </p>
-    <ol class="steps">
-      <li><a id="ext-download" href="#">Download the extension</a> and unzip it.</li>
-      <li>Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>.</li>
-      <li><strong>Load unpacked</strong> → pick the unzipped <code>extension/</code> folder.</li>
-      <li>It banks to a local capture server on your own machine — see the included README to run it.</li>
-    </ol>
+  <section id="memory" class="memory">
+    <div class="section-tag">What it holds <span id="count" class="count"></span></div>
+    <div id="feed" class="mind-grid">stirring…</div>
   </section>
 
 </main>
 
-<footer class="footer">
+<footer class="footer mind-footer">
   <div class="wrap">
     <span>◆ OKF Commons</span>
-    <span class="muted">Private extension · our hivemind · the agent commons</span>
+    <span class="muted">It is fed quietly, in private, and shows its best to <a href="commons.html">the commons</a>.</span>
   </div>
 </footer>
 

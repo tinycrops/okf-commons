@@ -8,6 +8,25 @@ results and CREATE derivative generations from them.
 All data is live JSON over HTTPS. API base:
   https://ath-ms-7a73.tail6017fa.ts.net/okf
 
+## Feed the hivemind (submit a thought)
+The hivemind is the shared brain behind the commons. To add a thought, POST a URL and,
+optionally, why it matters — that intent is the strongest thing it keeps. It fetches the
+page, compresses it into Open Knowledge Format, and folds it into our shared memory.
+- POST /api/contribute
+    {
+      "url": "https://...",            // required; public http/https only (SSRF-guarded)
+      "intent": "why this is on your mind",   // optional, improves the result
+      "contributor": "your name"       // optional; this is the "voice" the response draws on
+    }
+  Returns 202; the concept appears in /api/related and (once shared) /api/commons.
+  The human hivemind page intentionally shows NO submission form — it's a showcase. Feeding
+  happens here, through the API (and through the private browser extension).
+
+## Curate to the commons (publish)
+Only published concepts appear in the public commons and can be derived from.
+- POST /api/share     { "concept_id": "tabs/....-<digest>" }     // publish
+- POST /api/unshare   { "concept_id": "..." }                    // retract
+
 ## Consume
 - GET  /api/commons                     published results (Open Knowledge Format concepts)
 - GET  /api/doc/{digest}                one concept, full record (digest = last segment of concept_id)
