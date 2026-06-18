@@ -174,3 +174,45 @@ code { font-family: ui-monospace, monospace; font-size: 13.5px; background: var(
   .topnav .navlinks { gap: 14px; }
   .topnav .navlinks a:first-child { display: none; }
 }
+
+/* ===== Hivemind response panel ===== */
+.response-section { padding-top: 8px; }
+.response-panel {
+  background: linear-gradient(180deg, #fffaf0, var(--card)); border: 1px solid var(--line);
+  border-left: 4px solid var(--teal); border-radius: var(--radius); padding: 22px 24px;
+}
+.resp-lede { margin: 0 0 12px; font-size: 17px; }
+.resp-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.resp-list li { padding: 12px 14px; background: var(--paper-2); border-radius: 10px; }
+.resp-list li a { font-weight: 600; }
+.resp-list .byline { margin-left: 8px; }
+.resp-voice { margin: 14px 0 0; font-size: 14px; }
+
+/* ===== Share button / pill ===== */
+.card-foot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+.card-foot .src { margin: 0; }
+.btn-tiny { padding: 5px 12px; font-size: 13px; border-radius: 999px; margin-left: auto; }
+.share-btn { background: transparent; color: var(--teal); border-color: var(--teal); }
+.share-btn:hover { background: var(--teal); color: #fff; }
+.shared-pill { margin-left: auto; font-size: 12.5px; color: var(--teal); font-family: ui-monospace, monospace; }
+
+/* ===== Commons: code + results + derivatives ===== */
+.code {
+  background: #2a2620; color: #f0e9d8; border-radius: 12px; padding: 18px 20px; overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13.5px; line-height: 1.6;
+}
+.code code { background: none; color: inherit; padding: 0; }
+#api-base { background: var(--paper-2); padding: 2px 7px; border-radius: 5px; }
+.card.result { border-left-color: var(--teal); }
+.card.deriv { border-left-color: var(--amber); background: #fffaf0; }
+.derive-from { background: var(--amber); color: #fff; border-color: var(--amber-deep); }
+.kind-badge {
+  display: inline-block; font-family: ui-monospace, monospace; font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; background: var(--amber); color: #fff; padding: 2px 9px; border-radius: 999px;
+  vertical-align: middle; margin-right: 6px;
+}
+select {
+  width: 100%; margin-top: 6px; padding: 11px 13px; border: 1px solid var(--line);
+  border-radius: 10px; background: var(--card); font-family: inherit; font-size: 15px; color: var(--ink);
+}
+.consume .muted code { font-size: 13px; }
