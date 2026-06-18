@@ -6,6 +6,12 @@ and added to a public, retrievable commons. The reward is the close, not the ope
 
 **Live:** https://tinycrops.github.io/okf-commons/
 
+Two surfaces:
+- `index.html` — feature-forward landing page. The objective: a place for friends to work
+  together on the content that interests them.
+- `commons.html` — the brain space / working surface: the founding concept, the live
+  community feed, the contribute form, and the extension download.
+
 ## Architecture
 
 Split public/private, per the `gh-pages-tailscale-funnel-deploy` pattern:

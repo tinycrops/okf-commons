@@ -123,7 +123,26 @@ function wireExtension() {
   if (a && CFG.EXTENSION_ZIP) a.href = CFG.EXTENSION_ZIP;
 }
 
-loadHealth();
-loadCommons();
-wireForm();
-wireExtension();
+// Homepage live stat — a small proof the commons is real and growing.
+async function loadStat() {
+  const el = $("#stat");
+  if (!el) return;
+  const res = await fetchJSON("/api/health", {}, 10000).catch(() => null);
+  if (res && res.ok && res.body.ok) {
+    const n = res.body.documents;
+    el.className = "stat up";
+    el.innerHTML = `<span class="dot"></span>${n} concept${n === 1 ? "" : "s"} already in the commons — <a href="commons.html">go see them →</a>`;
+  } else {
+    el.className = "stat";
+    el.innerHTML = `<a href="commons.html">Open the commons →</a>`;
+  }
+}
+
+// Each page only wires the pieces it actually has.
+if ($("#stat")) loadStat();              // homepage
+if ($("#feed")) {                        // commons / brain space
+  loadHealth();
+  loadCommons();
+  wireForm();
+  wireExtension();
+}

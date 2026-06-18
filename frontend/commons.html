@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Commons — OKF brain space</title>
+<meta name="description" content="The shared brain space: every page your circle has banked, the reason it was kept, compressed into Open Knowledge Format and made retrievable. Add your own." />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="The Commons — a shared brain space" />
+<meta property="og:description" content="Every page your circle has banked, the reason it was kept, compressed and retrievable. Add your own." />
+<meta property="og:url" content="https://tinycrops.github.io/okf-commons/commons.html" />
+<meta property="og:image" content="https://tinycrops.github.io/okf-commons/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="./" class="brand">◆ OKF&nbsp;COMMONS</a>
+    <div class="navlinks">
+      <a href="./">Home</a>
+      <a href="#contribute">Add a page</a>
+      <a href="#extension">Extension</a>
+    </div>
+  </div>
+</nav>
+
+<header class="space-hero">
+  <div class="wrap">
+    <div class="mark">◆ THE&nbsp;COMMONS · SHARED&nbsp;BRAIN&nbsp;SPACE</div>
+    <h1>Everything your circle<br>thought worth keeping.</h1>
+    <p class="lede">
+      This is the brain space — the working surface where the knowledge lives. Every page
+      anyone banked, the <em>reason</em> it was kept, compressed into
+      <a href="https://en.wikipedia.org/wiki/Open_Knowledge_Foundation" target="_blank" rel="noopener">Open&nbsp;Knowledge&nbsp;Format</a>
+      and made retrievable. Add your own below.
+    </p>
+    <div id="health" class="health">checking the commons…</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="founding" class="founding">
+    <div class="section-tag">Founding concept</div>
+    <article id="founding-card" class="founding-card skeleton">loading the founding concept…</article>
+  </section>
+
+  <section id="contribute" class="contribute">
+    <div class="section-tag">Add to the commons</div>
+    <h2>Bank a page into shared memory</h2>
+    <p class="muted">
+      Paste a URL and, optionally, <em>why you kept it open</em> — that intent is the
+      strongest signal we store. We fetch the page, compress it with a model, and add the
+      concept to the commons below. No account needed.
+    </p>
+    <form id="contribute-form" autocomplete="off">
+      <label>URL
+        <input type="url" name="url" placeholder="https://…" required />
+      </label>
+      <label>Why are you keeping this? <span class="muted">(optional, but it makes the memory better)</span>
+        <textarea name="intent" rows="2" placeholder="The unfinished job this page represents…"></textarea>
+      </label>
+      <label>Your name <span class="muted">(optional)</span>
+        <input type="text" name="contributor" placeholder="anonymous" maxlength="60" />
+      </label>
+      <button type="submit" class="btn btn-primary">Bank it into the commons</button>
+      <div id="form-status" class="form-status" role="status"></div>
+    </form>
+  </section>
+
+  <section id="commons" class="commons">
+    <div class="section-tag">The commons</div>
+    <h2>What's been banked <span id="count" class="count"></span></h2>
+    <div id="feed" class="feed">loading…</div>
+  </section>
+
+  <section id="extension" class="extension">
+    <div class="section-tag">The full tool</div>
+    <h2>The Tab OKF extension</h2>
+    <p>
+      The web form above is the easy path. The extension is the real one: a one-key reward
+      loop in your browser. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> on any tab and
+      it's banked into your own OKF memory and closed — a badge counts how many you've banked
+      today. <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> opens a window to add <em>why</em> first.
+    </p>
+    <ol class="steps">
+      <li><a id="ext-download" href="#">Download the extension</a> and unzip it.</li>
+      <li>Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>.</li>
+      <li><strong>Load unpacked</strong> → pick the unzipped <code>extension/</code> folder.</li>
+      <li>It banks to a local capture server on your own machine — see the included README to run it.</li>
+    </ol>
+    <p class="muted small">
+      The extension banks to <em>your</em> machine, privately. The commons on this page is the
+      shareable layer on top.
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>◆ OKF Commons</span>
+    <span class="muted">Frontend on GitHub Pages · backend via Tailscale Funnel · concepts in Open Knowledge Format</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

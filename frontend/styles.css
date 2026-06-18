@@ -115,3 +115,62 @@ code { font-family: ui-monospace, monospace; font-size: 13.5px; background: var(
 
 .skeleton { color: var(--ink-soft); font-style: italic; }
 @media (max-width: 560px) { .hero { padding-top: 44px; } h1 { font-size: 30px; } }
+
+/* ===== Top nav (both pages) ===== */
+.topnav {
+  position: sticky; top: 0; z-index: 5;
+  background: rgba(245,241,232,.86); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.topnav .wrap { max-width: 1040px; display: flex; align-items: center; justify-content: space-between; padding-top: 14px; padding-bottom: 14px; }
+.topnav .brand { font-family: ui-monospace, monospace; letter-spacing: .12em; font-size: 13px; color: var(--amber-deep); border: none; }
+.topnav .navlinks { display: flex; gap: 20px; }
+.topnav .navlinks a { font-size: 14px; color: var(--ink-soft); border: none; }
+.topnav .navlinks a:hover { color: var(--amber-deep); }
+
+/* ===== Landing hero (homepage) ===== */
+.landing-hero { padding: 78px 0 56px; border-bottom: 1px solid var(--line); }
+.landing-hero .wrap, .features .wrap, .how .wrap, .collab .wrap { max-width: 1040px; }
+.landing-hero h1 { font-size: clamp(32px, 5.6vw, 56px); line-height: 1.06; margin: 18px 0 16px; font-weight: 600; max-width: 18ch; }
+.stat { margin-top: 26px; font-size: 14px; color: var(--ink-soft); font-family: ui-monospace, monospace; }
+.stat a { color: var(--amber-deep); }
+.stat .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; background: var(--teal); vertical-align: middle; }
+
+/* ===== Space hero (commons page) ===== */
+.space-hero { padding: 56px 0 36px; border-bottom: 1px solid var(--line); }
+.space-hero h1 { font-size: clamp(28px, 5vw, 46px); line-height: 1.08; margin: 16px 0 14px; font-weight: 600; }
+
+/* ===== Features grid ===== */
+.feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 22px; }
+.feature {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px 24px 20px; transition: transform .1s ease, box-shadow .1s ease;
+}
+.feature:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(120,90,30,.08); }
+.feature-icon {
+  width: 44px; height: 44px; border-radius: 11px; display: grid; place-items: center;
+  background: var(--paper-2); color: var(--amber-deep); font-size: 22px; margin-bottom: 14px;
+}
+.feature h3 { margin: 0 0 8px; font-size: 20px; font-weight: 600; }
+.feature p { margin: 0; color: var(--ink-soft); font-size: 15.5px; }
+
+/* ===== How it works ===== */
+.how-steps { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 16px; }
+.how-steps li { display: flex; gap: 18px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
+.how-steps .num {
+  flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--amber); color: #fff; font-family: ui-monospace, monospace; font-size: 17px; font-weight: 600;
+}
+.how-steps h3 { margin: 2px 0 5px; font-size: 19px; font-weight: 600; }
+.how-steps p { margin: 0; color: var(--ink-soft); font-size: 15.5px; }
+
+/* ===== Collab band ===== */
+.collab { background: var(--paper-2); }
+.collab-lede { font-size: 18px; color: var(--ink-soft); max-width: 64ch; }
+.cta-row.center { justify-content: center; margin-top: 26px; }
+
+@media (max-width: 680px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .topnav .navlinks { gap: 14px; }
+  .topnav .navlinks a:first-child { display: none; }
+}

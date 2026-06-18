@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>OKF Commons — a shared memory for the tabs worth keeping</title>
-<meta name="description" content="A community knowledge commons in Open Knowledge Format. Bank the page you couldn't close into shared memory — the reason you kept it is remembered, compressed, and made retrievable." />
+<title>OKF Commons — a place to build knowledge with your friends</title>
+<meta name="description" content="OKF Commons is a place for friends to work together on the content that interests them. Bank the pages worth keeping, remember why they mattered, and grow a shared brain your whole circle can search." />
 
 <!-- Open Graph / Twitter -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="OKF Commons — a shared memory for the tabs worth keeping" />
-<meta property="og:description" content="Bank a page you couldn't close into a shared knowledge commons. The reason you kept it is remembered, compressed, and made retrievable." />
+<meta property="og:title" content="OKF Commons — build a shared brain with your friends" />
+<meta property="og:description" content="A place for friends to work together on the content that interests them. Bank what matters, remember why, and grow a collection everyone can search." />
 <meta property="og:url" content="https://tinycrops.github.io/okf-commons/" />
 <meta property="og:image" content="https://tinycrops.github.io/okf-commons/assets/og.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="OKF Commons" />
-<meta name="twitter:description" content="A shared knowledge commons for the tabs worth keeping." />
+<meta name="twitter:description" content="A place for friends to build knowledge together." />
 <meta name="twitter:image" content="https://tinycrops.github.io/okf-commons/assets/og.png" />
 
 <link rel="stylesheet" href="styles.css" />
@@ -23,80 +23,110 @@
 <body>
 <div class="grain"></div>
 
-<header class="hero">
+<nav class="topnav">
   <div class="wrap">
-    <div class="mark">◆ OKF&nbsp;COMMONS</div>
-    <h1>A shared memory for the tabs<br>you couldn't close.</h1>
+    <a href="./" class="brand">◆ OKF&nbsp;COMMONS</a>
+    <div class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="commons.html">The commons</a>
+      <a href="commons.html#extension">Extension</a>
+    </div>
+  </div>
+</nav>
+
+<header class="landing-hero">
+  <div class="wrap">
+    <div class="mark">◆ A SHARED BRAIN FOR YOU AND YOUR FRIENDS</div>
+    <h1>Build knowledge together,<br>on the things you actually care about.</h1>
     <p class="lede">
-      You keep a tab open because some part of it matters — an unfinished thought, a thing
-      to come back to. <strong>OKF Commons</strong> banks that page into a shared knowledge
-      commons: the <em>reason</em> you kept it is captured, compressed into
-      <a href="https://en.wikipedia.org/wiki/Open_Knowledge_Foundation" target="_blank" rel="noopener">Open&nbsp;Knowledge&nbsp;Format</a>,
-      and made retrievable by you and your friends. The reward is the close, not the open.
+      You and your friends already send each other links all day — and then lose them.
+      <strong>OKF Commons</strong> is a place to work on that content <em>together</em>:
+      bank the pages worth keeping, remember <em>why</em> they mattered, and grow a shared
+      brain your whole circle can search.
     </p>
     <div class="cta-row">
-      <a href="#contribute" class="btn btn-primary">Contribute a page</a>
-      <a href="#extension" class="btn btn-ghost">Get the extension</a>
+      <a href="commons.html" class="btn btn-primary">Enter the commons</a>
+      <a href="#how" class="btn btn-ghost">See how it works</a>
     </div>
-    <div id="health" class="health">checking the commons…</div>
+    <div id="stat" class="stat"></div>
   </div>
 </header>
 
-<main class="wrap">
+<main>
 
-  <section id="founding" class="founding">
-    <div class="section-tag">Founding concept</div>
-    <article id="founding-card" class="founding-card skeleton">loading the founding concept…</article>
+  <section class="features">
+    <div class="wrap">
+      <div class="section-tag">Why it's different</div>
+      <h2>A collection that thinks with you</h2>
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon">⌘</div>
+          <h3>Bank what matters</h3>
+          <p>One key turns an open tab into shared memory. The reward is the close, not the open — your circle's attention becomes a collection instead of 100 dead tabs.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">✦</div>
+          <h3>The reason is kept</h3>
+          <p>Not just the link — <em>why</em> you kept it. Each page is compressed into Open Knowledge Format with the unfinished job it represents, so it still makes sense weeks later.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">⟡</div>
+          <h3>Built together</h3>
+          <p>Everyone contributes to the same commons. Over time it becomes a living map of what your group is into — added to by all of you, owned by none of you.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon">⌖</div>
+          <h3>Made to retrieve</h3>
+          <p>Search by the situation, not the keyword — "which plan should we buy", "that memory study". Agents can read from it too. It's a brain, not a bookmark folder.</p>
+        </article>
+      </div>
+    </div>
   </section>
 
-  <section id="contribute" class="contribute">
-    <div class="section-tag">Add to the commons</div>
-    <h2>Bank a page into shared memory</h2>
-    <p class="muted">
-      Paste a URL and, optionally, <em>why you kept it open</em> — that intent is the
-      strongest signal we store. We fetch the page, compress it with a model, and add the
-      concept to the commons below. No account needed.
-    </p>
-    <form id="contribute-form" autocomplete="off">
-      <label>URL
-        <input type="url" name="url" placeholder="https://…" required />
-      </label>
-      <label>Why are you keeping this? <span class="muted">(optional, but it makes the memory better)</span>
-        <textarea name="intent" rows="2" placeholder="The unfinished job this page represents…"></textarea>
-      </label>
-      <label>Your name <span class="muted">(optional)</span>
-        <input type="text" name="contributor" placeholder="anonymous" maxlength="60" />
-      </label>
-      <button type="submit" class="btn btn-primary">Bank it into the commons</button>
-      <div id="form-status" class="form-status" role="status"></div>
-    </form>
+  <section id="how" class="how">
+    <div class="wrap">
+      <div class="section-tag">How it works</div>
+      <h2>Three steps to a shared brain</h2>
+      <ol class="how-steps">
+        <li>
+          <span class="num">1</span>
+          <div>
+            <h3>Find a page worth keeping</h3>
+            <p>An article, a repo, a study — anything you'd otherwise leave open in a tab "to deal with later."</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <div>
+            <h3>Bank it, and say why</h3>
+            <p>Paste the URL (or press the extension hotkey) and add a line about why it matters. That intent is the strongest thing we remember.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <div>
+            <h3>It joins the commons</h3>
+            <p>Compressed, tagged, and searchable for everyone — yours and your friends' contributions in one shared, retrievable brain.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
   </section>
 
-  <section id="commons" class="commons">
-    <div class="section-tag">The commons</div>
-    <h2>What's been banked <span id="count" class="count"></span></h2>
-    <div id="feed" class="feed">loading…</div>
-  </section>
-
-  <section id="extension" class="extension">
-    <div class="section-tag">The full tool</div>
-    <h2>The Tab OKF extension</h2>
-    <p>
-      The web form above is the easy path. The extension is the real one: a one-key reward
-      loop in your browser. Press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> on any tab and
-      it's banked into your own OKF memory and closed — a badge counts how many you've banked
-      today. <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd> opens a window to add <em>why</em> first.
-    </p>
-    <ol class="steps">
-      <li><a id="ext-download" href="#">Download the extension</a> and unzip it.</li>
-      <li>Open <code>chrome://extensions</code>, turn on <strong>Developer mode</strong>.</li>
-      <li><strong>Load unpacked</strong> → pick the unzipped <code>extension/</code> folder.</li>
-      <li>It banks to a local capture server on your own machine — see the included README to run it.</li>
-    </ol>
-    <p class="muted small">
-      The extension banks to <em>your</em> machine, privately. The commons on this page is the
-      shareable layer on top.
-    </p>
+  <section class="collab">
+    <div class="wrap">
+      <div class="section-tag">For circles, not crowds</div>
+      <h2>A place for the people you think alongside</h2>
+      <p class="collab-lede">
+        OKF Commons isn't a social network. It's a small, shared workspace for a handful of
+        friends who care about the same things — the group chat where you drop links, except
+        it remembers, compresses, and gives the collection back to all of you.
+      </p>
+      <div class="cta-row center">
+        <a href="commons.html" class="btn btn-primary">Open the commons</a>
+        <a href="commons.html#contribute" class="btn btn-ghost">Add the first page</a>
+      </div>
+    </div>
   </section>
 
 </main>
