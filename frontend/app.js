@@ -8,7 +8,7 @@ const $ = (sel) => document.querySelector(sel);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-async function fetchJSON(path, opts = {}, ms = 9000) {
+async function fetchJSON(path, opts = {}, ms = 15000) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), ms);
   try {
@@ -49,7 +49,7 @@ async function loadCommons() {
   const res = await fetchJSON("/api/catalog").catch(() => null);
   if (!res || !res.ok) {
     founding.classList.remove("skeleton");
-    founding.innerHTML = cardHTML({
+    founding.outerHTML = cardHTML({
       title: "Zeigarnik effect", url: "https://en.wikipedia.org/wiki/Zeigarnik_effect",
       host: "en.wikipedia.org", source: "seed", contributor: "ath",
       inferred_purpose: "Reference for the Zeigarnik effect — the founding concept of this commons.",
@@ -73,7 +73,7 @@ async function loadCommons() {
 
 async function loadHealth() {
   const el = $("#health");
-  const res = await fetchJSON("/api/health", {}, 6000).catch(() => null);
+  const res = await fetchJSON("/api/health", {}, 10000).catch(() => null);
   if (res && res.ok && res.body.ok) {
     el.className = "health up";
     el.innerHTML = `<span class="dot"></span>commons online · ${res.body.documents} concept(s) · compressing with ${esc(res.body.model)}`;
@@ -98,7 +98,7 @@ function wireForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      }, 12000);
+      }, 20000);
       if (res.ok || res.status === 202) {
         status.className = "form-status ok";
         status.textContent = res.body.message || "Banked into the commons.";
