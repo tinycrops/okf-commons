@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OKF Mini — one button: summarize a tab & close it</title>
+<meta name="description" content="A tiny browser extension: click once to summarize the current tab into shared OKF memory, then close it. Build it in two minutes." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="OKF Mini — summarize a tab & close it, in one click" />
+<meta property="og:description" content="The two-minute, two-permission version of the OKF memory extension. Bank a tab into the shared hivemind, then close it." />
+<meta property="og:url" content="https://tinycrops.github.io/okf-commons/extension.html" />
+<meta property="og:image" content="https://tinycrops.github.io/okf-commons/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="stylesheet" href="styles.css" />
+<script src="config.js"></script>
+<style>
+  .spec{max-width:780px;margin:0 auto;padding:0 22px}
+  .steps{counter-reset:s;list-style:none;padding:0;margin:18px 0}
+  .steps li{counter-increment:s;position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--line,#e0d8c8)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:9px;width:28px;height:28px;
+    background:#c9821f;color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px}
+  .what{display:grid;gap:10px;margin:16px 0}
+  .what div{background:#fffdf8;border:1px solid #e0d8c8;border-radius:12px;padding:13px 16px}
+  .what b{color:#23201b}
+  .filebox{margin:18px 0}
+  .filebox h3{margin:0 0 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:14px;
+    background:#23201b;color:#f4efe6;display:inline-block;padding:5px 12px;border-radius:8px 8px 0 0}
+  pre{margin:0;background:#1d1b17;color:#e9e2d4;border-radius:0 10px 10px 10px;padding:16px;overflow:auto;
+    font-size:12.5px;line-height:1.5;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .copy{float:right;border:1px solid #4a463d;background:#2a2722;color:#cdbfa3;border-radius:7px;
+    padding:3px 10px;font-size:12px;cursor:pointer}
+  .copy:hover{background:#33302a}
+  .endpoint{background:#fbf1df;border:1px solid #f0dcb8;border-radius:12px;padding:14px 16px;margin:16px 0;font-size:14px}
+  .endpoint code{background:#fff;border:1px solid #ecdcb6;border-radius:5px;padding:1px 6px}
+  .note{color:#7a7263;font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a href="./" class="brand">◆ OKF&nbsp;COMMONS</a>
+    <div class="navlinks">
+      <a href="./">Home</a>
+      <a href="brain.html">The hivemind</a>
+      <a href="SPEC.md">Raw spec</a>
+    </div>
+  </div>
+</nav>
+
+<header class="landing-hero">
+  <div class="wrap">
+    <div class="mark">◆ OKF MINI — THE 2-MINUTE EXTENSION</div>
+    <h1>One button. Summarize the tab,<br>save it, close it.</h1>
+    <p class="lede">
+      The friend-sized version of the OKF memory tool. No local server, no setup to learn —
+      click once and the page is compressed into our shared hivemind and the tab closes.
+      The reward is the <em>close</em>, not the pile of 100 open tabs.
+    </p>
+    <div class="cta-row">
+      <a href="#install" class="btn btn-primary">Install in 2 minutes</a>
+      <a href="SPEC.md" class="btn btn-ghost">Read the raw spec →</a>
+    </div>
+  </div>
+</header>
+
+<main class="spec">
+
+  <section>
+    <div class="section-tag">What it does</div>
+    <div class="what">
+      <div><b>1 · You're on a keeper.</b> An article, a repo, a thread you'd leave open "for later."</div>
+      <div><b>2 · You click the button</b> (or press <b>Ctrl+Shift+S</b>).</div>
+      <div><b>3 · The backend summarizes it</b> into a concept — title, summary, why it mattered, tags — and folds it into the shared hivemind.</div>
+      <div><b>4 · The tab closes.</b> A ✓ flashes. It's remembered; your screen is clean.</div>
+    </div>
+    <p class="note">Deliberately tiny: two permissions, no page-scraping. The backend fetches the URL itself, so the extension never touches the content of your pages. Works for any public page (login-walled / heavy-JS pages are what the full extension is for).</p>
+  </section>
+
+  <section>
+    <div class="section-tag">The contract</div>
+    <div class="endpoint">
+      Everything routes through one call:
+      <code>POST <span id="ep">https://ath-ms-7a73.tail6017fa.ts.net/okf</span>/api/contribute</code>
+      with <code>{ url, contributor?, intent? }</code> — returns <code>202</code> instantly and
+      summarizes in the background. Banked concepts appear in <a href="brain.html">the hivemind</a>.
+    </div>
+  </section>
+
+  <section id="files">
+    <div class="section-tag">The three files</div>
+    <p>Make a folder <code>okf-mini/</code> and drop these in. Or hand this page to your coding agent.</p>
+
+    <div class="filebox">
+      <h3>manifest.json</h3>
+      <pre><button class="copy">copy</button><code id="f-manifest">{
+  "manifest_version": 3,
+  "name": "OKF Mini — Summarize &amp; Close",
+  "version": "1.0.0",
+  "description": "Bank the current tab into your shared OKF memory, then close it.",
+  "permissions": ["activeTab", "storage"],
+  "host_permissions": ["https://ath-ms-7a73.tail6017fa.ts.net/*"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_title": "Bank &amp; close this tab (Ctrl+Shift+S)" },
+  "options_page": "options.html",
+  "commands": {
+    "bank-and-close": {
+      "suggested_key": { "default": "Ctrl+Shift+S" },
+      "description": "Bank &amp; close the current tab"
+    }
+  }
+}</code></pre>
+    </div>
+
+    <div class="filebox">
+      <h3>background.js</h3>
+      <pre><button class="copy">copy</button><code id="f-bg">const BACKEND = "https://ath-ms-7a73.tail6017fa.ts.net/okf";
+
+async function badge(text, color) {
+  await chrome.action.setBadgeBackgroundColor({ color: color || "#c9821f" });
+  await chrome.action.setBadgeText({ text });
+}
+
+async function bank(tab) {
+  if (!tab || !tab.url || !/^https?:/i.test(tab.url)) return;
+  const { contributor } = await chrome.storage.sync.get("contributor");
+  await badge("…");
+  try {
+    const r = await fetch(BACKEND + "/api/contribute", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: tab.url, contributor: contributor || "" }),
+    });
+    if (r.ok) {                       // 202 — accepted
+      await badge("✓", "#3f9e57");
+      await chrome.tabs.remove(tab.id);
+    } else {
+      await badge("!", "#c2533f");     // rate-limited — slow down, tab stays
+    }
+  } catch (e) {
+    await badge("x", "#c2533f");        // backend asleep — nothing lost, tab stays
+  }
+  setTimeout(() => badge(""), 2500);
+}
+
+chrome.action.onClicked.addListener(bank);
+chrome.commands.onCommand.addListener(async (cmd) => {
+  if (cmd !== "bank-and-close") return;
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  bank(tab);
+});</code></pre>
+    </div>
+
+    <div class="filebox">
+      <h3>options.html</h3>
+      <pre><button class="copy">copy</button><code id="f-opt">&lt;!doctype html&gt;
+&lt;meta charset="utf-8" /&gt;
+&lt;title&gt;OKF Mini&lt;/title&gt;
+&lt;style&gt;
+  body{font:15px system-ui;margin:32px;max-width:420px;color:#23201b}
+  input{width:100%;padding:9px;border:1px solid #ccc;border-radius:8px;font-size:15px}
+  button{margin-top:12px;padding:9px 16px;border:0;border-radius:8px;background:#c9821f;color:#fff;font-weight:600;cursor:pointer}
+  .ok{color:#3f9e57;margin-left:10px}
+&lt;/style&gt;
+&lt;h2&gt;OKF Mini&lt;/h2&gt;
+&lt;p&gt;Your name is credited as the "voice" on everything you bank. Optional.&lt;/p&gt;
+&lt;input id="name" placeholder="your name" /&gt;
+&lt;div&gt;&lt;button id="save"&gt;Save&lt;/button&gt;&lt;span id="ok" class="ok"&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;script&gt;
+  chrome.storage.sync.get("contributor", ({ contributor }) =&gt; {
+    document.getElementById("name").value = contributor || "";
+  });
+  document.getElementById("save").onclick = () =&gt; {
+    chrome.storage.sync.set({ contributor: document.getElementById("name").value.trim() }, () =&gt; {
+      document.getElementById("ok").textContent = "saved ✓";
+    });
+  };
+&lt;/script&gt;</code></pre>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="section-tag">Install</div>
+    <h2>Two minutes, Chrome / Edge / Brave</h2>
+    <ol class="steps">
+      <li>Make a folder <code>okf-mini/</code> and save the three files above inside it.</li>
+      <li>Open <code>chrome://extensions</code>.</li>
+      <li>Turn on <b>Developer mode</b> (top-right toggle).</li>
+      <li>Click <b>Load unpacked</b> → choose the <code>okf-mini/</code> folder.</li>
+      <li>Optional: open the extension's <b>options</b> and set your name.</li>
+      <li>Pin the icon. On any page, click it (or <b>Ctrl+Shift+S</b>) to bank &amp; close.</li>
+    </ol>
+    <p class="note">Everything you bank shows up in <a href="./">the shared hivemind</a>. The backend lives on the maintainer's machine — if it's asleep you'll get an <code>x</code> badge and the tab simply stays open.</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>◆ OKF Commons</span>
+    <span class="muted">OKF Mini · the friend-onboarding extension · full spec at <a href="SPEC.md">SPEC.md</a></span>
+  </div>
+</footer>
+
+<script>
+  // fill the endpoint from config if present
+  const cfg = window.CONFIG || {};
+  if (cfg.BACKEND_URL) {
+    const ep = document.getElementById("ep");
+    if (ep) ep.textContent = cfg.BACKEND_URL.replace(/\/+$/, "");
+  }
+  document.querySelectorAll(".copy").forEach((b) => {
+    b.addEventListener("click", () => {
+      const code = b.parentElement.querySelector("code");
+      navigator.clipboard.writeText(code.innerText).then(() => {
+        const t = b.textContent; b.textContent = "copied ✓";
+        setTimeout(() => (b.textContent = t), 1400);
+      });
+    });
+  });
+</script>
+</body>
+</html>
